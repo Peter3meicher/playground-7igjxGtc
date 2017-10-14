@@ -625,4 +625,100 @@ public class Board extends JPanel implements ActionListener {
 
         repaint();
     }
+    private int pacman_x, pacman_y, pacmand_x, pacmand_y;
+    rivate final short levelData[] = {
+    19, 26, 26, 26, 18, 18, 18, 18, ...
+};
+private void doAnim() {
+
+    pacAnimCount--;
+
+    if (pacAnimCount <= 0) {
+        pacAnimCount = PAC_ANIM_DELAY;
+        pacmanAnimPos = pacmanAnimPos + pacAnimDir;
+
+        if (pacmanAnimPos == (PACMAN_ANIM_COUNT - 1) || pacmanAnimPos == 0) {
+            pacAnimDir = -pacAnimDir;
+        }
+    }
+}
+boolean finished = true;
+
+while (i < N_BLOCKS * N_BLOCKS && finished) {
+
+    if ((screenData[i] & 48) != 0) {
+        finished = false;
+    }
+
+    i++;
+}
+if (ghost_x[i] % BLOCK_SIZE == 0 && ghost_y[i] % BLOCK_SIZE == 0) {
+pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
+if ((screenData[pos] & 1) == 0 && ghost_dx[i] != 1) {
+    dx[count] = -1;
+    dy[count] = 0;
+    count++;
+}
+if (pacman_x > (ghost_x[i] - 12) && pacman_x < (ghost_x[i] + 12)
+        && pacman_y > (ghost_y[i] - 12) && pacman_y < (ghost_y[i] + 12)
+        && inGame) {
+
+    dying = true;
+}
+if ((ch & 16) != 0) {
+    screenData[pos] = (short) (ch & 15);
+    score++;
+}
+if ((pacmand_x == -1 && pacmand_y == 0 && (ch & 1) != 0)
+        || (pacmand_x == 1 && pacmand_y == 0 && (ch & 4) != 0)
+        || (pacmand_x == 0 && pacmand_y == -1 && (ch & 2) != 0)
+        || (pacmand_x == 0 && pacmand_y == 1 && (ch & 8) != 0)) {
+    pacmand_x = 0;
+    pacmand_y = 0;
+}
+private void drawPacman(Graphics2D g2d) {
+
+    if (view_dx == -1) {
+        drawPacnanLeft(g2d);
+    } else if (view_dx == 1) {
+        drawPacmanRight(g2d);
+    } else if (view_dy == -1) {
+        drawPacmanUp(g2d);
+    } else {
+        drawPacmanDown(g2d);
+    }
+    if ((screenData[i] & 1) != 0) { 
+    g2d.drawLine(x, y, x, y + BLOCK_SIZE - 1);
+}
+package com.zetcode;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+
+public class Pacman extends JFrame {
+
+    public Pacman() {
+        
+        initUI();
+    }
     
+    private void initUI() {
+        
+        add(new Board());
+        
+        setTitle("Pacman");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(380, 420);
+        setLocationRelativeTo(null);
+        setVisible(true);        
+    }
+
+    public static void main(String[] args) {
+
+        EventQueue.invokeLater(() -> {
+            Pacman ex = new Pacman();
+            ex.setVisible(true);
+        });
+    }
+}
+
